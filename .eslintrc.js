@@ -1,0 +1,36 @@
+module.exports = {
+    root: true,
+    env: {
+        browser: true,
+        node: true,
+        mocha: true,
+        es6: true,
+    },
+    parser: "babel-eslint",
+    parserOptions: {
+        ecmaVersion: 2018,
+        sourceType: "module",
+        ecmaFeatures: {
+            forOf: true,
+            es6: true,
+            experimentalObjectRestSpread: true,
+        },
+    },
+    extends: ["plugin:prettier/recommended"],
+    plugins: ["prettier"],
+    rules: {
+        "default-case": 1,
+        "dot-notation": 1,
+        "prettier/prettier": 2,
+        "no-cond-assign": 1,
+        "no-constant-condition": 2,
+        "no-eval": 2,
+        "no-extend-native": 2,
+        "no-fallthrough": 2,
+        "no-lone-blocks": 1,
+        "no-loop-func": 1,
+        "no-redeclare": 1,
+        "no-unused-vars": 1,
+        "no-use-before-define": 0,
+    },
+};

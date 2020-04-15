@@ -1,4 +1,4 @@
-import { BaseModule } from './BaseModule';
+import { BaseModule } from "./BaseModule";
 
 export class Resize extends BaseModule {
     onCreate = () => {
@@ -6,29 +6,33 @@ export class Resize extends BaseModule {
         this.boxes = [];
 
         // add 4 resize handles
-        this.addBox('nwse-resize'); // top left
-        this.addBox('nesw-resize'); // top right
-        this.addBox('nwse-resize'); // bottom right
-        this.addBox('nesw-resize'); // bottom left
+        this.addBox("nwse-resize"); // top left
+        this.addBox("nesw-resize"); // top right
+        this.addBox("nwse-resize"); // bottom right
+        this.addBox("nesw-resize"); // bottom left
 
         this.positionBoxes();
     };
 
     onDestroy = () => {
         // reset drag handle cursors
-        this.setCursor('');
+        this.deleteCursor();
     };
 
     positionBoxes = () => {
-        const handleXOffset = `${-parseFloat(this.options.handleStyles.width) / 2}px`;
-        const handleYOffset = `${-parseFloat(this.options.handleStyles.height) / 2}px`;
+        const handleXOffset = `${
+            -parseFloat(this.options.handleStyles.width) / 2
+        }px`;
+        const handleYOffset = `${
+            -parseFloat(this.options.handleStyles.height) / 2
+        }px`;
 
         // set the top and left for each drag handle
         [
-            { left: handleXOffset, top: handleYOffset },        // top left
-            { right: handleXOffset, top: handleYOffset },       // top right
-            { right: handleXOffset, bottom: handleYOffset },    // bottom right
-            { left: handleXOffset, bottom: handleYOffset },     // bottom left
+            { left: handleXOffset, top: handleYOffset }, // top left
+            { right: handleXOffset, top: handleYOffset }, // top right
+            { right: handleXOffset, bottom: handleYOffset }, // bottom right
+            { left: handleXOffset, bottom: handleYOffset }, // bottom left
         ].forEach((pos, idx) => {
             Object.assign(this.boxes[idx].style, pos);
         });
@@ -36,7 +40,7 @@ export class Resize extends BaseModule {
 
     addBox = (cursor) => {
         // create div element for resize handle
-        const box = document.createElement('div');
+        const box = document.createElement("div");
 
         // Star with the specified styles
         Object.assign(box.style, this.options.handleStyles);
@@ -47,7 +51,7 @@ export class Resize extends BaseModule {
         box.style.height = `${this.options.handleStyles.height}px`;
 
         // listen for mousedown on each box
-        box.addEventListener('mousedown', this.handleMousedown, false);
+        box.addEventListener("mousedown", this.handleMousedown, false);
         // add drag handle to document
         this.overlay.appendChild(box);
         // keep track of drag handle
@@ -64,16 +68,16 @@ export class Resize extends BaseModule {
         // set the proper cursor everywhere
         this.setCursor(this.dragBox.style.cursor);
         // listen for movement and mouseup
-        document.addEventListener('mousemove', this.handleDrag, false);
-        document.addEventListener('mouseup', this.handleMouseup, false);
+        document.addEventListener("mousemove", this.handleDrag, false);
+        document.addEventListener("mouseup", this.handleMouseup, false);
     };
 
     handleMouseup = () => {
         // reset cursor everywhere
-        this.setCursor('');
+        this.deleteCursor();
         // stop listening for movement and mouseup
-        document.removeEventListener('mousemove', this.handleDrag);
-        document.removeEventListener('mouseup', this.handleMouseup);
+        document.removeEventListener("mousemove", this.handleDrag);
+        document.removeEventListener("mouseup", this.handleMouseup);
     };
 
     handleDrag = (evt) => {
@@ -94,11 +98,15 @@ export class Resize extends BaseModule {
     };
 
     setCursor = (value) => {
-        [
-            document.body,
-            this.img,
-        ].forEach((el) => {
-            el.style.cursor = value;   // eslint-disable-line no-param-reassign
+        [document.body, this.img].forEach((el) => {
+            el.style.cursor = value; // eslint-disable-line no-param-reassign
+        });
+    };
+
+    deleteCursor = () => {
+        [document.body, this.img].forEach((el) => {
+            el.style.removeProperty("cursor"); // eslint-disable-line no-param-reassign
+            el.style.length == 0 && el.removeAttribute("style");
         });
     };
 }
